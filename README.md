@@ -112,7 +112,7 @@ Every stat page links to the original publication and shows when it was last upd
 
 ## Roadmap
 
-- [ ] Live ONS API integration — automatic data refresh
+- [x] Live ONS API integration — CPI inflation fetched daily from ONS timeseries API
 - [ ] Search — server-side full-text filtering
 - [ ] Dynamic Open Graph images per statistic
 - [ ] Side-by-side stat comparison view

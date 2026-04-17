@@ -2,7 +2,14 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Suspense } from "react";
-import { getAllSlugs, getStatBySlug } from "../../../lib/data/stats";
+import {
+  getAllSlugs,
+  getStatBySlug,
+  getStatBySlugWithLiveData,
+} from "../../../lib/data/stats";
+
+// Revalidate this page's data once per day in production (ISR)
+export const revalidate = 86_400;
 import { CATEGORY_META } from "../../../types";
 import { datasetJsonLd, breadcrumbJsonLd } from "../../../lib/jsonld";
 import CategoryBadge from "../../../components/stats/CategoryBadge";
@@ -35,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function StatPage({ params }: Props) {
   const { slug } = await params;
-  const stat = getStatBySlug(slug);
+  const stat = await getStatBySlugWithLiveData(slug);
   if (!stat) notFound();
 
   const catMeta = CATEGORY_META[stat.category];
@@ -62,7 +69,10 @@ export default async function StatPage({ params }: Props) {
         <nav aria-label="Breadcrumb" className="mb-6 text-sm text-slate-500">
           <ol className="flex flex-wrap items-center gap-2">
             <li>
-              <Link href="/" className="hover:text-indigo-600 transition-colors">
+              <Link
+                href="/"
+                className="hover:text-indigo-600 transition-colors"
+              >
                 Home
               </Link>
             </li>
