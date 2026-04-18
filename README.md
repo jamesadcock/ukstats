@@ -118,7 +118,7 @@ Every stat page links to the original publication and shows when it was last upd
 - [x] Fetch UK Unemployment Rate from API — CDID `MGSX`, monthly
 - [x] Fetch UK Population Estimate from API — CDID `UKPOP`, annual
 - [x] Fetch UK Public Sector Net Debt from API — CDID `HF6X`, monthly
-- [ ] Fetch UK Average House Price from API — ONS HPI CDIDs return 404; needs Land Registry bulk download approach
+- [x] Fetch UK Average House Price from API — Land Registry Linked Data API, monthly
 - [ ] Fetch UK Life Expectancy at Birth from API — no live ONS timeseries; annual bulletin only
 - [ ] Fetch NHS A&E 4-Hour Wait Target from API — NHS England data, not on ONS timeseries
 - [ ] Search — server-side full-text filtering

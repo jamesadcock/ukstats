@@ -14,6 +14,12 @@ import {
   ONS_TIMESERIES_MAP,
   OnsApiError,
 } from "../ons";
+import {
+  fetchLrHousePrices,
+  transformLrHousePrices,
+  LR_REGION_MAP,
+  LrApiError,
+} from "../lr";
 
 const ALL_STATS: Stat[] = [
   ...economyStats,
@@ -61,24 +67,52 @@ export async function getStatBySlugWithLiveData(
   const base = getStatBySlug(slug);
   if (!base) return undefined;
 
-  const config = ONS_TIMESERIES_MAP[slug];
-  if (!config) return base; // no live source configured — return static
-
-  try {
-    const response = await fetchOnsTimeseries(config.path, config.cdid);
-    const overrides = transformTimeseries(response, config);
-    return { ...base, ...overrides };
-  } catch (err) {
-    if (err instanceof OnsApiError) {
-      console.warn(
-        `[ukstats] ONS live fetch failed for "${slug}" — using static data. Reason: ${err.message}`,
-      );
-    } else {
-      console.warn(
-        `[ukstats] Unexpected error fetching live data for "${slug}" — using static data.`,
-        err,
-      );
+  // ── ONS Timeseries ────────────────────────────────────────────────────────
+  const onsConfig = ONS_TIMESERIES_MAP[slug];
+  if (onsConfig) {
+    try {
+      const response = await fetchOnsTimeseries(onsConfig.path, onsConfig.cdid);
+      const overrides = transformTimeseries(response, onsConfig);
+      return { ...base, ...overrides };
+    } catch (err) {
+      if (err instanceof OnsApiError) {
+        console.warn(
+          `[ukstats] ONS live fetch failed for "${slug}" — using static data. Reason: ${err.message}`,
+        );
+      } else {
+        console.warn(
+          `[ukstats] Unexpected error fetching ONS data for "${slug}" — using static data.`,
+          err,
+        );
+      }
+      return base;
     }
-    return base; // silent fallback
   }
+
+  // ── Land Registry Linked Data ─────────────────────────────────────────────
+  const lrConfig = LR_REGION_MAP[slug];
+  if (lrConfig) {
+    try {
+      const items = await fetchLrHousePrices(
+        lrConfig.region,
+        lrConfig.chartCount,
+      );
+      const overrides = transformLrHousePrices(items);
+      return { ...base, ...overrides };
+    } catch (err) {
+      if (err instanceof LrApiError) {
+        console.warn(
+          `[ukstats] Land Registry live fetch failed for "${slug}" — using static data. Reason: ${err.message}`,
+        );
+      } else {
+        console.warn(
+          `[ukstats] Unexpected error fetching LR data for "${slug}" — using static data.`,
+          err,
+        );
+      }
+      return base;
+    }
+  }
+
+  return base; // no live source configured
 }
