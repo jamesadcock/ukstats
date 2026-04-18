@@ -121,6 +121,8 @@ Every stat page links to the original publication and shows when it was last upd
 - [x] Fetch UK Average House Price from API — Land Registry Linked Data API, monthly
 - [x] Fetch UK Life Expectancy at Birth from API — World Bank Open Data API (`SP.DYN.LE00.MA.IN` / `SP.DYN.LE00.FE.IN`), annual
 - [x] Fetch NHS A&E 4-Hour Wait Target from API — NHS England monthly XLS time series, parsed with SheetJS
+- [x] Small Boat Channel Crossings (Monthly) — Home Office weekly ODS time series, parsed with SheetJS
+- [x] Small Boat Crossings Year to Date — Home Office weekly ODS time series, parsed with SheetJS
 - [ ] Search — server-side full-text filtering
 - [ ] Embeddable widgets for third-party sites
 

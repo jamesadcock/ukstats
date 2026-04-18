@@ -6,6 +6,7 @@ import {
   populationStats,
   housingStats,
   educationStats,
+  immigrationStats,
 } from "../../content/stats";
 import { type Stat, type Category } from "../../types";
 import {
@@ -32,6 +33,13 @@ import {
   NHSE_AE_MAP,
   NhseApiError,
 } from "../nhse";
+import {
+  fetchHoSmallBoats,
+  transformSmallBoatMonthly,
+  transformSmallBoatYtd,
+  HO_SMALL_BOATS_MAP,
+  HoApiError,
+} from "../ho";
 
 const ALL_STATS: Stat[] = [
   ...economyStats,
@@ -40,6 +48,7 @@ const ALL_STATS: Stat[] = [
   ...populationStats,
   ...housingStats,
   ...educationStats,
+  ...immigrationStats,
 ];
 
 // ─── Synchronous helpers (safe for generateStaticParams) ─────────────────────
@@ -174,6 +183,31 @@ export async function getStatBySlugWithLiveData(
       } else {
         console.warn(
           `[ukstats] Unexpected error fetching NHSE data for "${slug}" — using static data.`,
+          err,
+        );
+      }
+      return base;
+    }
+  }
+
+  // ── Home Office Small Boats ────────────────────────────────────────────
+  const hoConfig = HO_SMALL_BOATS_MAP[slug];
+  if (hoConfig) {
+    try {
+      const rows = await fetchHoSmallBoats();
+      const overrides =
+        hoConfig.type === "monthly"
+          ? transformSmallBoatMonthly(rows)
+          : transformSmallBoatYtd(rows);
+      return { ...base, ...overrides };
+    } catch (err) {
+      if (err instanceof HoApiError) {
+        console.warn(
+          `[ukstats] Home Office live fetch failed for "${slug}" — using static data. Reason: ${err.message}`,
+        );
+      } else {
+        console.warn(
+          `[ukstats] Unexpected error fetching HO data for "${slug}" — using static data.`,
           err,
         );
       }

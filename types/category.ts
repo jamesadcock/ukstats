@@ -5,6 +5,7 @@ export const CATEGORIES = [
   "population",
   "housing",
   "education",
+  "immigration",
 ] as const;
 
 export type Category = (typeof CATEGORIES)[number];
@@ -52,5 +53,12 @@ export const CATEGORY_META: Record<Category, CategoryMeta> = {
     label: "Education",
     description: "Schools, higher education, attainment and skills.",
     colour: "bg-cyan-700 text-white",
+  },
+  immigration: {
+    slug: "immigration",
+    label: "Immigration",
+    description:
+      "Border crossings, asylum, visa grants and migration statistics.",
+    colour: "bg-amber-600 text-white",
   },
 };
