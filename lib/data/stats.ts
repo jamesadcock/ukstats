@@ -26,6 +26,12 @@ import {
   WB_LIFE_EXP_MAP,
   WbApiError,
 } from "../wb";
+import {
+  fetchNhseAeTimeSeries,
+  transformNhseAe,
+  NHSE_AE_MAP,
+  NhseApiError,
+} from "../nhse";
 
 const ALL_STATS: Stat[] = [
   ...economyStats,
@@ -146,6 +152,28 @@ export async function getStatBySlugWithLiveData(
       } else {
         console.warn(
           `[ukstats] Unexpected error fetching WB data for "${slug}" — using static data.`,
+          err,
+        );
+      }
+      return base;
+    }
+  }
+
+  // ── NHS England A&E ──────────────────────────────────────────────────────
+  const nhseConfig = NHSE_AE_MAP[slug];
+  if (nhseConfig) {
+    try {
+      const points = await fetchNhseAeTimeSeries(nhseConfig.chartCount);
+      const overrides = transformNhseAe(points);
+      return { ...base, ...overrides };
+    } catch (err) {
+      if (err instanceof NhseApiError) {
+        console.warn(
+          `[ukstats] NHS England live fetch failed for "${slug}" — using static data. Reason: ${err.message}`,
+        );
+      } else {
+        console.warn(
+          `[ukstats] Unexpected error fetching NHSE data for "${slug}" — using static data.`,
           err,
         );
       }
