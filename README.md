@@ -112,7 +112,15 @@ Every stat page links to the original publication and shows when it was last upd
 
 ## Roadmap
 
-- [x] Live ONS API integration — CPI inflation fetched daily from ONS timeseries API
+- [x] Live ONS API integration — CPI inflation fetched daily from ONS timeseries
+      API
+- [x] Fetch UK GDP Growth Rate from API — CDID `IHYQ`, quarterly
+- [x] Fetch UK Unemployment Rate from API — CDID `MGSX`, monthly
+- [x] Fetch UK Population Estimate from API — CDID `UKPOP`, annual
+- [x] Fetch UK Public Sector Net Debt from API — CDID `HF6X`, monthly
+- [ ] Fetch UK Average House Price from API — ONS HPI CDIDs return 404; needs Land Registry bulk download approach
+- [ ] Fetch UK Life Expectancy at Birth from API — no live ONS timeseries; annual bulletin only
+- [ ] Fetch NHS A&E 4-Hour Wait Target from API — NHS England data, not on ONS timeseries
 - [ ] Search — server-side full-text filtering
 - [ ] Dynamic Open Graph images per statistic
 - [ ] Side-by-side stat comparison view

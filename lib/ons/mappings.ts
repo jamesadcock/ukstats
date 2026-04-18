@@ -30,4 +30,40 @@ export const ONS_TIMESERIES_MAP: Record<string, OnsTimeseriesConfig> = {
     chartPeriod: "months",
     chartCount: 24,
   },
+
+  // GDP: quarter-on-quarter growth, chained volume measures, seasonally adjusted
+  // Source: https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/IHYQ/pn2
+  "uk-gdp-growth-rate": {
+    cdid: "IHYQ",
+    path: "economy/grossdomesticproductgdp/pn2",
+    chartPeriod: "quarters",
+    chartCount: 20,
+  },
+
+  // Unemployment rate (aged 16+, seasonally adjusted), 3-month rolling average
+  // Source: https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/timeseries/MGSX/lms
+  "uk-unemployment-rate": {
+    cdid: "MGSX",
+    path: "employmentandlabourmarket/peoplenotinwork/unemployment/lms",
+    chartPeriod: "months",
+    chartCount: 24,
+  },
+
+  // UK mid-year population estimate
+  // Source: https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/timeseries/UKPOP/pop
+  "uk-population-estimate": {
+    cdid: "UKPOP",
+    path: "peoplepopulationandcommunity/populationandmigration/populationestimates/pop",
+    chartPeriod: "years",
+    chartCount: 20,
+  },
+
+  // Public sector net debt (excl. public sector banks) as % of GDP, NSA
+  // Source: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/HF6X/pusf
+  "uk-public-sector-net-debt": {
+    cdid: "HF6X",
+    path: "economy/governmentpublicsectorandtaxes/publicsectorfinance/pusf",
+    chartPeriod: "months",
+    chartCount: 24,
+  },
 };
