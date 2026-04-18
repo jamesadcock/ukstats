@@ -119,13 +119,10 @@ Every stat page links to the original publication and shows when it was last upd
 - [x] Fetch UK Population Estimate from API — CDID `UKPOP`, annual
 - [x] Fetch UK Public Sector Net Debt from API — CDID `HF6X`, monthly
 - [x] Fetch UK Average House Price from API — Land Registry Linked Data API, monthly
-- [ ] Fetch UK Life Expectancy at Birth from API — no live ONS timeseries; annual bulletin only
+- [x] Fetch UK Life Expectancy at Birth from API — World Bank Open Data API (`SP.DYN.LE00.MA.IN` / `SP.DYN.LE00.FE.IN`), annual
 - [ ] Fetch NHS A&E 4-Hour Wait Target from API — NHS England data, not on ONS timeseries
 - [ ] Search — server-side full-text filtering
-- [ ] Dynamic Open Graph images per statistic
-- [ ] Side-by-side stat comparison view
 - [ ] Embeddable widgets for third-party sites
-- [ ] Welsh language support (`/cy` route prefix)
 
 ---
 

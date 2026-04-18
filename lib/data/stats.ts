@@ -20,6 +20,12 @@ import {
   LR_REGION_MAP,
   LrApiError,
 } from "../lr";
+import {
+  fetchWbIndicator,
+  transformWbLifeExpectancy,
+  WB_LIFE_EXP_MAP,
+  WbApiError,
+} from "../wb";
 
 const ALL_STATS: Stat[] = [
   ...economyStats,
@@ -107,6 +113,39 @@ export async function getStatBySlugWithLiveData(
       } else {
         console.warn(
           `[ukstats] Unexpected error fetching LR data for "${slug}" — using static data.`,
+          err,
+        );
+      }
+      return base;
+    }
+  }
+
+  // ── World Bank Open Data ──────────────────────────────────────────────────
+  const wbConfig = WB_LIFE_EXP_MAP[slug];
+  if (wbConfig) {
+    try {
+      const [malePoints, femalePoints] = await Promise.all([
+        fetchWbIndicator(
+          wbConfig.countryCode,
+          wbConfig.maleIndicator,
+          wbConfig.chartCount,
+        ),
+        fetchWbIndicator(
+          wbConfig.countryCode,
+          wbConfig.femaleIndicator,
+          wbConfig.chartCount,
+        ),
+      ]);
+      const overrides = transformWbLifeExpectancy(malePoints, femalePoints);
+      return { ...base, ...overrides };
+    } catch (err) {
+      if (err instanceof WbApiError) {
+        console.warn(
+          `[ukstats] World Bank live fetch failed for "${slug}" — using static data. Reason: ${err.message}`,
+        );
+      } else {
+        console.warn(
+          `[ukstats] Unexpected error fetching WB data for "${slug}" — using static data.`,
           err,
         );
       }
