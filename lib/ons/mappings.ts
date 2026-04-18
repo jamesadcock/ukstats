@@ -35,7 +35,7 @@ export const ONS_TIMESERIES_MAP: Record<string, OnsTimeseriesConfig> = {
   // Source: https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/IHYQ/pn2
   "uk-gdp-growth-rate": {
     cdid: "IHYQ",
-    path: "economy/grossdomesticproductgdp/pn2",
+    path: "economy/grossdomesticproductgdp",
     chartPeriod: "quarters",
     chartCount: 20,
   },
@@ -44,7 +44,7 @@ export const ONS_TIMESERIES_MAP: Record<string, OnsTimeseriesConfig> = {
   // Source: https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/timeseries/MGSX/lms
   "uk-unemployment-rate": {
     cdid: "MGSX",
-    path: "employmentandlabourmarket/peoplenotinwork/unemployment/lms",
+    path: "employmentandlabourmarket/peoplenotinwork/unemployment",
     chartPeriod: "months",
     chartCount: 24,
   },
@@ -53,7 +53,7 @@ export const ONS_TIMESERIES_MAP: Record<string, OnsTimeseriesConfig> = {
   // Source: https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/timeseries/UKPOP/pop
   "uk-population-estimate": {
     cdid: "UKPOP",
-    path: "peoplepopulationandcommunity/populationandmigration/populationestimates/pop",
+    path: "peoplepopulationandcommunity/populationandmigration/populationestimates",
     chartPeriod: "years",
     chartCount: 20,
   },
@@ -62,7 +62,7 @@ export const ONS_TIMESERIES_MAP: Record<string, OnsTimeseriesConfig> = {
   // Source: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/HF6X/pusf
   "uk-public-sector-net-debt": {
     cdid: "HF6X",
-    path: "economy/governmentpublicsectorandtaxes/publicsectorfinance/pusf",
+    path: "economy/governmentpublicsectorandtaxes/publicsectorfinance",
     chartPeriod: "months",
     chartCount: 24,
   },
