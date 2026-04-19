@@ -39,6 +39,14 @@ export default function SiteFooter() {
                   All Topics
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/cookies"
+                  className="hover:text-white transition-colors"
+                >
+                  Cookies
+                </Link>
+              </li>
             </ul>
           </nav>
         </div>
