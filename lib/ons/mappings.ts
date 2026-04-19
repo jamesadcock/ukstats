@@ -19,6 +19,12 @@ export interface OnsTimeseriesConfig {
   chartPeriod: ChartPeriod;
   /** How many recent periods to include in chartData */
   chartCount: number;
+  /**
+   * Optional multiplier applied to every value after parsing.
+   * Use to convert raw API units to the display unit, e.g. 0.001 to convert
+   * thousands → millions.
+   */
+  valueScale?: number;
 }
 
 export const ONS_TIMESERIES_MAP: Record<string, OnsTimeseriesConfig> = {
@@ -56,6 +62,8 @@ export const ONS_TIMESERIES_MAP: Record<string, OnsTimeseriesConfig> = {
     path: "peoplepopulationandcommunity/populationandmigration/populationestimates",
     chartPeriod: "years",
     chartCount: 20,
+    // ONS returns UKPOP in thousands; divide by 1000 to display in millions
+    valueScale: 0.001,
   },
 
   // Public sector net debt (excl. public sector banks) as % of GDP, NSA

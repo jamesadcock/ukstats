@@ -65,11 +65,15 @@ function buildChartData(
   response: OnsTimeseriesResponse,
   period: ChartPeriod,
   count: number,
+  valueScale = 1,
 ): DataPoint[] {
+  const scale = (v: number) =>
+    valueScale !== 1 ? parseFloat((v * valueScale).toFixed(3)) : v;
+
   if (period === "months") {
     return response.months.slice(-count).map((m) => ({
       date: monthDateToIso(m.date),
-      value: parseValue(m.value) ?? 0,
+      value: scale(parseValue(m.value) ?? 0),
       label: monthLabel(m),
     }));
   }
@@ -78,14 +82,14 @@ function buildChartData(
       .slice(-count)
       .map((q) => ({
         date: quarterDateToIso(q.date),
-        value: parseValue(q.value) ?? 0,
+        value: scale(parseValue(q.value) ?? 0),
         label: quarterLabel(q),
       }));
   }
   // years
   return (response.years as OnsTimeseriesYear[]).slice(-count).map((y) => ({
     date: `${y.year}-01-01`,
-    value: parseValue(y.value) ?? 0,
+    value: scale(parseValue(y.value) ?? 0),
     label: y.year,
   }));
 }
@@ -133,15 +137,22 @@ export function transformTimeseries(
   const latestValue = parseValue(latest.value);
   if (latestValue === null) return {};
 
+  const scale = config.valueScale ?? 1;
+  const applyScale = (v: number) =>
+    scale !== 1 ? parseFloat((v * scale).toFixed(3)) : v;
+
+  const scaledLatestValue = applyScale(latestValue);
+
   const trendInfo =
     previous && parseValue(previous.value) !== null
-      ? deriveTrend(latestValue, parseValue(previous.value)!)
+      ? deriveTrend(scaledLatestValue, applyScale(parseValue(previous.value)!))
       : {};
 
   const chartData = buildChartData(
     response,
     config.chartPeriod,
     config.chartCount,
+    scale,
   );
   const lastUpdated =
     "updateDate" in latest && latest.updateDate
@@ -149,7 +160,7 @@ export function transformTimeseries(
       : new Date().toISOString().split("T")[0];
 
   return {
-    currentValue: latestValue,
+    currentValue: scaledLatestValue,
     lastUpdated,
     chartData,
     ...trendInfo,
