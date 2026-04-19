@@ -16,6 +16,7 @@ import CategoryBadge from "../../../components/stats/CategoryBadge";
 import SourceAttribution from "../../../components/stats/SourceAttribution";
 import LineChart from "../../../components/charts/LineChart";
 import ChartFallback from "../../../components/charts/ChartFallback";
+import ShareButtons from "../../../components/stats/ShareButtons";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -123,12 +124,19 @@ export default async function StatPage({ params }: Props) {
         {/* Chart */}
         {stat.chartData && stat.chartData.length > 0 && (
           <section className="mb-10" aria-labelledby="chart-heading">
-            <h2
-              id="chart-heading"
-              className="mb-4 text-lg font-semibold text-slate-900"
-            >
-              Historical data
-            </h2>
+            <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <h2
+                id="chart-heading"
+                className="text-lg font-semibold text-slate-900"
+              >
+                Historical data
+              </h2>
+              <ShareButtons
+                title={stat.title}
+                summary={stat.summary}
+                path={`/stats/${stat.slug}`}
+              />
+            </div>
             {/* Client chart — hidden for users with JS disabled */}
             <div className="rounded-xl border border-slate-200 bg-white p-4">
               <Suspense
