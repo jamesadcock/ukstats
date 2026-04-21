@@ -18,16 +18,16 @@ export default function CookieBanner({
 }: {
   onConsent: (accepted: boolean) => void;
 }) {
-  // Initialise lazily so we only read localStorage once, on mount
-  const [consent, setConsent] = useState<ConsentState>(() => {
-    if (typeof window === "undefined") return null;
-    return getStoredConsent();
-  });
+  // Start with null so SSR and client hydration match, then read
+  // localStorage after mount to avoid hydration mismatches.
+  const [consent, setConsent] = useState<ConsentState>(null);
 
-  // If consent was already recorded, notify parent once on mount
+  // Read stored consent after mount and notify parent if already recorded
   useEffect(() => {
-    if (consent !== null) {
-      onConsent(consent === "accepted");
+    const stored = getStoredConsent();
+    if (stored !== null) {
+      setConsent(stored);
+      onConsent(stored === "accepted");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
