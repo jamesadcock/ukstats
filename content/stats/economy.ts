@@ -19,7 +19,7 @@ export const economyStats: Stat[] = [
     lastUpdated: "2025-02-12",
     methodology: `GDP is measured using three approaches — output, expenditure and income — which are then balanced to produce a single estimate. The quarterly growth rate compares the latest quarter's chained volume measure with the preceding quarter. Figures are seasonally adjusted and expressed in constant (2019) prices.
 
-Source methodology: [ONS GDP methodology](https://www.ons.gov.uk/economy/grossdomesticproductgdp/methodologies/gdpukregionalpublications).`,
+Source methodology: [ONS GDP methodology](https://www.ons.gov.uk/economy/grossdomesticproductgdp/methodologies/grossdomesticproductgdpqmi).`,
     chartData: [
       { date: "2023-01-01", value: 0.3, label: "Q1 2023" },
       { date: "2023-04-01", value: 0.2, label: "Q2 2023" },

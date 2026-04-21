@@ -12,6 +12,7 @@ import {
 export const revalidate = 86_400;
 import { CATEGORY_META } from "../../../types";
 import { datasetJsonLd, breadcrumbJsonLd } from "../../../lib/jsonld";
+import { parseInlineMarkdown } from "../../../lib/parseInlineMarkdown";
 import CategoryBadge from "../../../components/stats/CategoryBadge";
 import SourceAttribution from "../../../components/stats/SourceAttribution";
 import LineChart from "../../../components/charts/LineChart";
@@ -173,7 +174,10 @@ export default async function StatPage({ params }: Props) {
           </h2>
           <div className="prose prose-slate prose-sm max-w-none text-slate-600 leading-7">
             {stat.methodology.split("\n\n").map((para, i) => (
-              <p key={i}>{para}</p>
+              <p
+                key={i}
+                dangerouslySetInnerHTML={{ __html: parseInlineMarkdown(para) }}
+              />
             ))}
           </div>
         </section>
