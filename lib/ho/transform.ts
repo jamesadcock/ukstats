@@ -120,9 +120,7 @@ export function transformSmallBoatMonthly(
 
 /**
  * Transforms daily row data into a `Partial<Stat>` representing the
- * year-to-date cumulative arrivals for the current calendar year.
- *
- * The chart shows the full annual total for each prior year for comparison.
+ * full annual total for each complete calendar year.
  */
 export function transformSmallBoatYtd(rows: HoSmallBoatRow[]): Partial<Stat> {
   if (rows.length === 0) return {};
@@ -130,49 +128,7 @@ export function transformSmallBoatYtd(rows: HoSmallBoatRow[]): Partial<Stat> {
   const now = new Date();
   const currentYear = now.getFullYear();
 
-  // Sum YTD for current year
-  const ytdRows = rows.filter((r) => r.date.startsWith(`${currentYear}-`));
-  const ytdTotal = ytdRows.reduce((sum, r) => sum + r.arrived, 0);
-
-  if (ytdTotal === 0) return {};
-
-  // Latest date in current year
-  const lastYtdDate =
-    ytdRows.length > 0
-      ? ytdRows[ytdRows.length - 1].date
-      : now.toISOString().slice(0, 10);
-
-  // Same-point comparison: sum of prior year up to same day-of-year
-  const lastYtdDateObj = new Date(lastYtdDate);
-  const dayOfYear = Math.floor(
-    (lastYtdDateObj.getTime() - new Date(`${currentYear}-01-01`).getTime()) /
-      86_400_000,
-  );
-  const priorYearCutoff = new Date(
-    currentYear - 1,
-    lastYtdDateObj.getMonth(),
-    lastYtdDateObj.getDate(),
-  )
-    .toISOString()
-    .slice(0, 10);
-  const priorYearStart = `${currentYear - 1}-01-01`;
-  const priorYtdTotal = rows
-    .filter((r) => r.date >= priorYearStart && r.date <= priorYearCutoff)
-    .reduce((sum, r) => sum + r.arrived, 0);
-
-  let trend: Stat["trend"] = "flat";
-  let trendDescription: string | undefined;
-  if (priorYtdTotal > 0) {
-    const diff = ytdTotal - priorYtdTotal;
-    const threshold = priorYtdTotal * 0.05;
-    if (diff > threshold) trend = "up";
-    else if (diff < -threshold) trend = "down";
-    const direction =
-      trend === "up" ? "up" : trend === "down" ? "down" : "unchanged";
-    trendDescription = `${direction} from ${priorYtdTotal.toLocaleString()} at the same point last year`;
-  }
-
-  // Chart: annual totals for each prior complete year, then current YTD
+  // Sum full annual totals for each complete year
   const annualTotals = new Map<number, number>();
   for (const row of rows) {
     const yr = parseInt(row.date.slice(0, 4), 10);
@@ -181,26 +137,35 @@ export function transformSmallBoatYtd(rows: HoSmallBoatRow[]): Partial<Stat> {
     }
   }
 
-  const chartData = Array.from(annualTotals.entries())
-    .sort(([a], [b]) => a - b)
-    .map(([yr, total]) => ({
-      date: `${yr}-01-01`,
-      value: total,
-      label: `${yr} (full year)`,
-    }));
+  if (annualTotals.size === 0) return {};
 
-  // Append current YTD bar
-  chartData.push({
-    date: `${currentYear}-01-01`,
-    value: ytdTotal,
-    label: `${currentYear} (Jan–${MONTH_LABELS[lastYtdDateObj.getMonth()]})`,
-  });
+  const sortedYears = Array.from(annualTotals.entries()).sort(
+    ([a], [b]) => a - b,
+  );
+  const lastFull = sortedYears[sortedYears.length - 1];
+  const prevFull = sortedYears[sortedYears.length - 2];
 
-  void dayOfYear; // suppress unused warning
+  let trend: Stat["trend"] = "flat";
+  let trendDescription: string | undefined;
+  if (lastFull && prevFull) {
+    const diff = lastFull[1] - prevFull[1];
+    const threshold = prevFull[1] * 0.05;
+    if (diff > threshold) trend = "up";
+    else if (diff < -threshold) trend = "down";
+    const direction =
+      trend === "up" ? "up" : trend === "down" ? "down" : "unchanged";
+    trendDescription = `${direction} from ${prevFull[1].toLocaleString()} in ${prevFull[0]}`;
+  }
+
+  const chartData = sortedYears.map(([yr, total]) => ({
+    date: `${yr}-01-01`,
+    value: total,
+    label: `${yr}`,
+  }));
 
   return {
-    currentValue: ytdTotal,
-    lastUpdated: lastYtdDate,
+    currentValue: lastFull[1],
+    lastUpdated: `${lastFull[0]}-12-31`,
     trend,
     trendDescription,
     chartData,
