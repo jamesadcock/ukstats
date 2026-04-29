@@ -40,7 +40,7 @@ export default function LineChart({
   unit,
   colour = "#2563eb",
 }: LineChartProps) {
-  const [range, setRange] = useState<RangeKey>("Max");
+  const [range, setRange] = useState<RangeKey>("10Y");
 
   // Determine which range buttons are meaningful given the data span
   const oldestDate = useMemo(() => {
