@@ -34,7 +34,9 @@ export default function ChartSection({
     [frequency],
   );
 
-  const defaultInterval: Interval = frequency ?? "monthly";
+  const defaultInterval: Interval = availableIntervals.includes("annual")
+    ? "annual"
+    : (frequency ?? "annual");
   const [selectedInterval, setSelectedInterval] =
     useState<Interval>(defaultInterval);
 
