@@ -23,6 +23,8 @@ export interface Stat {
   lastUpdated: string; // ISO date
   methodology: string; // Markdown prose
   chartData?: DataPoint[];
+  /** Native data frequency — determines which interval options are shown in the chart selector */
+  frequency?: "monthly" | "quarterly" | "annual";
   tags: string[];
   featured?: boolean;
   trend?: "up" | "down" | "flat"; // direction of latest change

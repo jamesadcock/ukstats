@@ -20,6 +20,7 @@ export const economyStats: Stat[] = [
     methodology: `GDP is measured using three approaches — output, expenditure and income — which are then balanced to produce a single estimate. The quarterly growth rate compares the latest quarter's chained volume measure with the preceding quarter. Figures are seasonally adjusted and expressed in constant (2019) prices.
 
 Source methodology: [ONS GDP methodology](https://www.ons.gov.uk/economy/grossdomesticproductgdp/methodologies/grossdomesticproductgdpqmi).`,
+    frequency: "quarterly",
     tags: ["gdp", "growth", "economy", "quarterly"],
     featured: true,
   },
@@ -42,6 +43,7 @@ Source methodology: [ONS GDP methodology](https://www.ons.gov.uk/economy/grossdo
     methodology: `CPI measures the average change in prices paid by consumers for a basket of goods and services. The basket is updated annually to reflect changing spending patterns. The 12-month rate compares the current month's index value to the same month in the previous year.
 
 The ONS follows the [European System of Accounts](https://ec.europa.eu/eurostat/web/esa-2010) harmonised methodology, allowing international comparisons.`,
+    frequency: "monthly",
     tags: ["inflation", "cpi", "prices", "economy"],
     featured: true,
   },
@@ -62,6 +64,7 @@ The ONS follows the [European System of Accounts](https://ec.europa.eu/eurostat/
     },
     lastUpdated: "2025-03-25",
     methodology: `Public sector net debt is calculated as total financial liabilities minus liquid financial assets. It excludes the Bank of England unless stated. Expressed as a percentage of GDP using the latest ONS GDP estimate. Revisions are routine as GDP estimates are updated.`,
+    frequency: "monthly",
     tags: ["debt", "public finances", "gdp", "economy"],
     featured: false,
   },
