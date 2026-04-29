@@ -16,6 +16,8 @@ interface LineChartProps {
   data: DataPoint[];
   unit: string;
   colour?: string;
+  /** Minimum selectable range in years. Ranges smaller than this are hidden. */
+  minYears?: number;
 }
 
 type RangeKey = "1Y" | "2Y" | "5Y" | "10Y" | "Max";
@@ -39,6 +41,7 @@ export default function LineChart({
   data,
   unit,
   colour = "#2563eb",
+  minYears,
 }: LineChartProps) {
   const [range, setRange] = useState<RangeKey>("10Y");
 
@@ -55,7 +58,11 @@ export default function LineChart({
     return new Date(oldestDate) < cutoff;
   };
 
-  const visibleRanges = RANGES.filter(({ years }) => isRangeAvailable(years));
+  const visibleRanges = RANGES.filter(
+    ({ years }) =>
+      isRangeAvailable(years) &&
+      (years === null || minYears === undefined || years >= minYears),
+  );
 
   const selectedRange = RANGES.find((r) => r.label === range)!;
   const filteredData = useMemo(

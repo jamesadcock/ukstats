@@ -75,7 +75,11 @@ export default function ChartSection({
       )}
 
       <div className="rounded-xl border border-slate-200 bg-white p-4">
-        <LineChart data={aggregatedData} unit={unit} />
+        <LineChart
+          data={aggregatedData}
+          unit={unit}
+          minYears={selectedInterval === "annual" ? 5 : undefined}
+        />
       </div>
 
       <details className="mt-4">
