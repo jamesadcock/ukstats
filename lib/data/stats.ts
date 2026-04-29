@@ -98,15 +98,15 @@ export async function getStatBySlugWithLiveData(
     } catch (err) {
       if (err instanceof OnsApiError) {
         console.warn(
-          `[ukstats] ONS live fetch failed for "${slug}" — using static data. Reason: ${err.message}`,
+          `[ukstats] ONS live fetch failed for "${slug}" — chart data unavailable. Reason: ${err.message}`,
         );
       } else {
         console.warn(
-          `[ukstats] Unexpected error fetching ONS data for "${slug}" — using static data.`,
+          `[ukstats] Unexpected error fetching ONS data for "${slug}" — chart data unavailable.`,
           err,
         );
       }
-      return base;
+      return { ...base, chartData: [] };
     }
   }
 
@@ -123,15 +123,15 @@ export async function getStatBySlugWithLiveData(
     } catch (err) {
       if (err instanceof LrApiError) {
         console.warn(
-          `[ukstats] Land Registry live fetch failed for "${slug}" — using static data. Reason: ${err.message}`,
+          `[ukstats] Land Registry live fetch failed for "${slug}" — chart data unavailable. Reason: ${err.message}`,
         );
       } else {
         console.warn(
-          `[ukstats] Unexpected error fetching LR data for "${slug}" — using static data.`,
+          `[ukstats] Unexpected error fetching LR data for "${slug}" — chart data unavailable.`,
           err,
         );
       }
-      return base;
+      return { ...base, chartData: [] };
     }
   }
 
@@ -156,15 +156,15 @@ export async function getStatBySlugWithLiveData(
     } catch (err) {
       if (err instanceof WbApiError) {
         console.warn(
-          `[ukstats] World Bank live fetch failed for "${slug}" — using static data. Reason: ${err.message}`,
+          `[ukstats] World Bank live fetch failed for "${slug}" — chart data unavailable. Reason: ${err.message}`,
         );
       } else {
         console.warn(
-          `[ukstats] Unexpected error fetching WB data for "${slug}" — using static data.`,
+          `[ukstats] Unexpected error fetching WB data for "${slug}" — chart data unavailable.`,
           err,
         );
       }
-      return base;
+      return { ...base, chartData: [] };
     }
   }
 
@@ -178,15 +178,15 @@ export async function getStatBySlugWithLiveData(
     } catch (err) {
       if (err instanceof NhseApiError) {
         console.warn(
-          `[ukstats] NHS England live fetch failed for "${slug}" — using static data. Reason: ${err.message}`,
+          `[ukstats] NHS England live fetch failed for "${slug}" — chart data unavailable. Reason: ${err.message}`,
         );
       } else {
         console.warn(
-          `[ukstats] Unexpected error fetching NHSE data for "${slug}" — using static data.`,
+          `[ukstats] Unexpected error fetching NHSE data for "${slug}" — chart data unavailable.`,
           err,
         );
       }
-      return base;
+      return { ...base, chartData: [] };
     }
   }
 
@@ -203,15 +203,15 @@ export async function getStatBySlugWithLiveData(
     } catch (err) {
       if (err instanceof HoApiError) {
         console.warn(
-          `[ukstats] Home Office live fetch failed for "${slug}" — using static data. Reason: ${err.message}`,
+          `[ukstats] Home Office live fetch failed for "${slug}" — chart data unavailable. Reason: ${err.message}`,
         );
       } else {
         console.warn(
-          `[ukstats] Unexpected error fetching HO data for "${slug}" — using static data.`,
+          `[ukstats] Unexpected error fetching HO data for "${slug}" — chart data unavailable.`,
           err,
         );
       }
-      return base;
+      return { ...base, chartData: [] };
     }
   }
 

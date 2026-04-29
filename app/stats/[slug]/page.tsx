@@ -123,7 +123,7 @@ export default async function StatPage({ params }: Props) {
         </section>
 
         {/* Chart */}
-        {stat.chartData && stat.chartData.length > 0 && (
+        {stat.chartData !== undefined && (
           <section className="mb-10" aria-labelledby="chart-heading">
             <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2
@@ -138,29 +138,38 @@ export default async function StatPage({ params }: Props) {
                 path={`/stats/${stat.slug}`}
               />
             </div>
-            {/* Client chart — hidden for users with JS disabled */}
-            <div className="rounded-xl border border-slate-200 bg-white p-4">
-              <Suspense
-                fallback={
-                  <div className="h-[280px] animate-pulse rounded bg-slate-100" />
-                }
-              >
-                <LineChart data={stat.chartData} unit={stat.unit} />
-              </Suspense>
-            </div>
-            {/* Accessible table fallback (always rendered, visually hidden when chart visible) */}
-            <details className="mt-4">
-              <summary className="cursor-pointer text-sm text-slate-500 hover:text-indigo-600 transition-colors">
-                View as table
-              </summary>
-              <div className="mt-3">
-                <ChartFallback
-                  data={stat.chartData}
-                  title={stat.title}
-                  unit={stat.unit}
-                />
+            {stat.chartData.length === 0 ? (
+              <div className="rounded-xl border border-slate-200 bg-slate-50 px-6 py-8 text-center text-sm text-slate-500">
+                Historical data is currently unavailable. Please check back
+                later.
               </div>
-            </details>
+            ) : (
+              <>
+                {/* Client chart — hidden for users with JS disabled */}
+                <div className="rounded-xl border border-slate-200 bg-white p-4">
+                  <Suspense
+                    fallback={
+                      <div className="h-[280px] animate-pulse rounded bg-slate-100" />
+                    }
+                  >
+                    <LineChart data={stat.chartData} unit={stat.unit} />
+                  </Suspense>
+                </div>
+                {/* Accessible table fallback (always rendered, visually hidden when chart visible) */}
+                <details className="mt-4">
+                  <summary className="cursor-pointer text-sm text-slate-500 hover:text-indigo-600 transition-colors">
+                    View as table
+                  </summary>
+                  <div className="mt-3">
+                    <ChartFallback
+                      data={stat.chartData}
+                      title={stat.title}
+                      unit={stat.unit}
+                    />
+                  </div>
+                </details>
+              </>
+            )}
           </section>
         )}
 
