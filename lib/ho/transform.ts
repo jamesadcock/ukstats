@@ -100,8 +100,8 @@ export function transformSmallBoatMonthly(
     trendDescription = `${direction} from ${prior.total.toLocaleString()} in ${prior.label}`;
   }
 
-  // Chart: last 24 complete months, oldest-first
-  const chartBuckets = buckets.filter((b) => b.key <= latest.key).slice(-24);
+  // Chart: all complete months, oldest-first
+  const chartBuckets = buckets.filter((b) => b.key <= latest.key);
 
   const chartData = chartBuckets.map((b) => ({
     date: b.firstDay,

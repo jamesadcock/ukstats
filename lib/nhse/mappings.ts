@@ -10,6 +10,6 @@ export const NHSE_AE_MAP: Record<string, NhseAeConfig> = {
   // NHS England A&E 4-hour performance — all departments, England aggregate
   // Source: https://www.england.nhs.uk/statistics/statistical-work-areas/ae-waiting-times-and-activity/
   "nhs-a-and-e-4-hour-wait": {
-    chartCount: 24,
+    chartCount: 1000, // series starts Aug 2010 — large value returns full history
   },
 };

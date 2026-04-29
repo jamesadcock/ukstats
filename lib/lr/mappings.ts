@@ -17,6 +17,6 @@ export const LR_REGION_MAP: Record<string, LrRegionConfig> = {
   // Source: https://landregistry.data.gov.uk/app/ukhpi/browse?location=http%3A%2F%2Flandregistry.data.gov.uk%2Fid%2Fregion%2Funited-kingdom
   "uk-average-house-price": {
     region: "united-kingdom",
-    chartCount: 24,
+    chartCount: 1000, // series starts Jan 1995 — large value returns full history
   },
 };

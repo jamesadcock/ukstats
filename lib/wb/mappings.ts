@@ -23,6 +23,6 @@ export const WB_LIFE_EXP_MAP: Record<string, WbLifeExpConfig> = {
     countryCode: "GB",
     maleIndicator: "SP.DYN.LE00.MA.IN",
     femaleIndicator: "SP.DYN.LE00.FE.IN",
-    chartCount: 20,
+    chartCount: 100, // series starts 1960 — large value returns full history
   },
 };

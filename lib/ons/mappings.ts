@@ -34,7 +34,7 @@ export const ONS_TIMESERIES_MAP: Record<string, OnsTimeseriesConfig> = {
     cdid: "L55O",
     path: "economy/inflationandpriceindices",
     chartPeriod: "months",
-    chartCount: 24,
+    chartCount: 1000, // series starts Jan 1988 — large value returns full history
   },
 
   // GDP: quarter-on-quarter growth, chained volume measures, seasonally adjusted
@@ -43,7 +43,7 @@ export const ONS_TIMESERIES_MAP: Record<string, OnsTimeseriesConfig> = {
     cdid: "IHYQ",
     path: "economy/grossdomesticproductgdp",
     chartPeriod: "quarters",
-    chartCount: 20,
+    chartCount: 300, // series starts 1955 Q4 — large value returns full history
   },
 
   // Unemployment rate (aged 16+, seasonally adjusted), 3-month rolling average
@@ -52,7 +52,7 @@ export const ONS_TIMESERIES_MAP: Record<string, OnsTimeseriesConfig> = {
     cdid: "MGSX",
     path: "employmentandlabourmarket/peoplenotinwork/unemployment",
     chartPeriod: "months",
-    chartCount: 24,
+    chartCount: 1000, // series starts Jan 1971 — large value returns full history
   },
 
   // UK mid-year population estimate
@@ -61,7 +61,7 @@ export const ONS_TIMESERIES_MAP: Record<string, OnsTimeseriesConfig> = {
     cdid: "UKPOP",
     path: "peoplepopulationandcommunity/populationandmigration/populationestimates",
     chartPeriod: "years",
-    chartCount: 20,
+    chartCount: 1000, // series starts 1838 — large value returns full history
     // ONS returns UKPOP in thousands; divide by 1000 to display in millions
     valueScale: 0.001,
   },
@@ -72,6 +72,6 @@ export const ONS_TIMESERIES_MAP: Record<string, OnsTimeseriesConfig> = {
     cdid: "HF6X",
     path: "economy/governmentpublicsectorandtaxes/publicsectorfinance",
     chartPeriod: "months",
-    chartCount: 24,
+    chartCount: 1000, // series starts ~1993 — large value returns full history
   },
 };
