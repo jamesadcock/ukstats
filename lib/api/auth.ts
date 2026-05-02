@@ -15,6 +15,15 @@ function safeCompare(a: string, b: string): boolean {
 export function validateApiKey(req: NextRequest): NextResponse | null {
   const expectedKey = process.env.UKSTATS_API_KEY;
 
+  console.error("[auth] UKSTATS_API_KEY present:", !!expectedKey);
+  console.error("[auth] NODE_ENV:", process.env.NODE_ENV);
+  console.error(
+    "[auth] Available env keys:",
+    Object.keys(process.env)
+      .filter((k) => k.startsWith("UKSTATS") || k.startsWith("NEXT"))
+      .join(", "),
+  );
+
   if (!expectedKey) {
     return NextResponse.json(
       { error: "Service configuration error" },
