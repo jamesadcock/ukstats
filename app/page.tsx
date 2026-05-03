@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { getFeaturedStats } from "../lib/data/stats";
+import { getFeaturedStatsWithLiveData } from "../lib/data/stats";
 import { getAllCategories } from "../lib/data/categories";
 import StatGrid from "../components/stats/StatGrid";
 
-export default function Home() {
-  const featured = getFeaturedStats();
+export default async function Home() {
+  const featured = await getFeaturedStatsWithLiveData();
   const categories = getAllCategories();
 
   return (

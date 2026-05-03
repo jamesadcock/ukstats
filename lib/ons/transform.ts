@@ -94,24 +94,35 @@ function buildChartData(
   }));
 }
 
+const PERIOD_LABEL: Record<ChartPeriod, string> = {
+  months: "month",
+  quarters: "quarter",
+  years: "year",
+};
+
 function deriveTrend(
   latest: number,
   previous: number,
+  period: ChartPeriod,
 ): { trend: Stat["trend"]; trendDescription: string } {
+  const periodLabel = PERIOD_LABEL[period];
   const diff = parseFloat((latest - previous).toFixed(2));
   if (diff > 0) {
     return {
       trend: "up",
-      trendDescription: `up ${diff}pp from previous month`,
+      trendDescription: `up ${diff}pp from previous ${periodLabel}`,
     };
   }
   if (diff < 0) {
     return {
       trend: "down",
-      trendDescription: `down ${Math.abs(diff)}pp from previous month`,
+      trendDescription: `down ${Math.abs(diff)}pp from previous ${periodLabel}`,
     };
   }
-  return { trend: "flat", trendDescription: "unchanged from previous month" };
+  return {
+    trend: "flat",
+    trendDescription: `unchanged from previous ${periodLabel}`,
+  };
 }
 
 /**
@@ -145,7 +156,11 @@ export function transformTimeseries(
 
   const trendInfo =
     previous && parseValue(previous.value) !== null
-      ? deriveTrend(scaledLatestValue, applyScale(parseValue(previous.value)!))
+      ? deriveTrend(
+          scaledLatestValue,
+          applyScale(parseValue(previous.value)!),
+          config.chartPeriod,
+        )
       : {};
 
   const chartData = buildChartData(

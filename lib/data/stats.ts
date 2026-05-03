@@ -69,6 +69,14 @@ export function getFeaturedStats(): Stat[] {
   return ALL_STATS.filter((s) => s.featured === true);
 }
 
+export async function getFeaturedStatsWithLiveData(): Promise<Stat[]> {
+  const featured = ALL_STATS.filter((s) => s.featured === true);
+  const results = await Promise.all(
+    featured.map((s) => getStatBySlugWithLiveData(s.slug)),
+  );
+  return results.filter((s): s is Stat => s !== undefined);
+}
+
 export function getAllSlugs(): string[] {
   return ALL_STATS.map((s) => s.slug);
 }
