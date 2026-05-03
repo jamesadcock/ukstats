@@ -36,7 +36,6 @@ import {
 import {
   fetchHoSmallBoats,
   transformSmallBoatMonthly,
-  transformSmallBoatYtd,
   HO_SMALL_BOATS_MAP,
   HoApiError,
 } from "../ho";
@@ -203,10 +202,7 @@ export async function getStatBySlugWithLiveData(
   if (hoConfig) {
     try {
       const rows = await fetchHoSmallBoats();
-      const overrides =
-        hoConfig.type === "monthly"
-          ? transformSmallBoatMonthly(rows)
-          : transformSmallBoatYtd(rows);
+      const overrides = transformSmallBoatMonthly(rows);
       return { ...base, ...overrides };
     } catch (err) {
       if (err instanceof HoApiError) {

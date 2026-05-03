@@ -10,5 +10,4 @@ export interface HoSmallBoatConfig {
  */
 export const HO_SMALL_BOATS_MAP: Record<string, HoSmallBoatConfig> = {
   "small-boat-arrivals-monthly": { type: "monthly" },
-  "small-boat-arrivals-ytd": { type: "ytd" },
 };
