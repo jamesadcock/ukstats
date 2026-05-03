@@ -66,6 +66,6 @@ The ONS follows the [European System of Accounts](https://ec.europa.eu/eurostat/
     methodology: `Public sector net debt is calculated as total financial liabilities minus liquid financial assets. It excludes the Bank of England unless stated. Expressed as a percentage of GDP using the latest ONS GDP estimate. Revisions are routine as GDP estimates are updated.`,
     frequency: "monthly",
     tags: ["debt", "public finances", "gdp", "economy"],
-    featured: false,
+    featured: true,
   },
 ];

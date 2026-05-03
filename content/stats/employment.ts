@@ -41,6 +41,6 @@ export const employmentStats: Stat[] = [
     methodology: `The Annual Survey of Hours and Earnings (ASHE) is based on a 1% sample of employee jobs taken from HM Revenue and Customs PAYE records. Weekly earnings figures are for full-time employees on adult rates whose pay was not affected by absence. Median is used rather than mean to reduce the influence of very high earners.`,
     frequency: "annual",
     tags: ["wages", "earnings", "pay", "employment"],
-    featured: false,
+    featured: true,
   },
 ];
