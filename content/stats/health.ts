@@ -20,7 +20,7 @@ export const healthStats: Stat[] = [
     methodology: `Life expectancy is calculated using age-specific mortality rates from the ONS National Life Tables, applied to a hypothetical cohort. Figures are period life expectancies (not cohort) over a three-year rolling average. They represent the average lifespan if current conditions persisted, not a prediction of actual longevity.`,
     frequency: "annual",
     tags: ["life expectancy", "mortality", "health", "population"],
-    featured: true,
+    featured: false,
   },
   {
     slug: "nhs-a-and-e-4-hour-wait",

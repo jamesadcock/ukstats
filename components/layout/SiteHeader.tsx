@@ -1,8 +1,20 @@
 import Link from "next/link";
 import { CATEGORIES, CATEGORY_META } from "../../types";
+import { getAllStats } from "../../lib/data/stats";
 import MobileMenu from "./MobileMenu";
+import StatsNavDropdown, { type CategoryNavGroup } from "./StatsNavDropdown";
 
 export default function SiteHeader() {
+  const allStats = getAllStats();
+
+  const groups: CategoryNavGroup[] = CATEGORIES.map((slug) => ({
+    slug,
+    label: CATEGORY_META[slug].label,
+    stats: allStats
+      .filter((s) => s.category === slug)
+      .map((s) => ({ slug: s.slug, title: s.title })),
+  }));
+
   return (
     <header className="sticky top-0 z-50 bg-slate-950 shadow-md" role="banner">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 sm:px-6">
@@ -18,16 +30,9 @@ export default function SiteHeader() {
         {/* Desktop nav — hidden on mobile */}
         <nav aria-label="Main navigation" className="hidden md:block">
           <ul className="flex items-center gap-x-1 text-sm font-medium text-slate-300">
-            {CATEGORIES.map((slug) => (
-              <li key={slug}>
-                <Link
-                  href={`/categories/${slug}`}
-                  className="rounded-md px-3 py-2 hover:bg-slate-800 hover:text-white transition-colors"
-                >
-                  {CATEGORY_META[slug].label}
-                </Link>
-              </li>
-            ))}
+            <li>
+              <StatsNavDropdown groups={groups} />
+            </li>
             <li className="ml-2 h-4 w-px bg-slate-700" aria-hidden="true" />
             <li>
               <Link
@@ -49,7 +54,7 @@ export default function SiteHeader() {
         </nav>
 
         {/* Mobile burger + drawer */}
-        <MobileMenu />
+        <MobileMenu groups={groups} />
       </div>
     </header>
   );

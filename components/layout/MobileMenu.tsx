@@ -3,15 +3,22 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CATEGORIES, CATEGORY_META } from "../../types";
+import { type Category } from "../../types";
+import { type CategoryNavGroup } from "./StatsNavDropdown";
 
-export default function MobileMenu() {
+interface Props {
+  groups: CategoryNavGroup[];
+}
+
+export default function MobileMenu({ groups }: Props) {
   const [open, setOpen] = useState(false);
+  const [openCategory, setOpenCategory] = useState<Category | null>(null);
   const pathname = usePathname();
 
   // Close menu on route change
   useEffect(() => {
     setOpen(false);
+    setOpenCategory(null);
   }, [pathname]);
 
   // Prevent body scroll when menu is open
@@ -21,6 +28,10 @@ export default function MobileMenu() {
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  function toggleCategory(slug: Category) {
+    setOpenCategory((prev) => (prev === slug ? null : slug));
+  }
 
   return (
     <>
@@ -79,14 +90,48 @@ export default function MobileMenu() {
           className="md:hidden fixed inset-0 top-[57px] z-40 bg-slate-950 overflow-y-auto"
         >
           <ul className="flex flex-col divide-y divide-slate-800 px-4 py-2">
-            {CATEGORIES.map((slug) => (
-              <li key={slug}>
-                <Link
-                  href={`/categories/${slug}`}
-                  className="flex items-center gap-3 py-3.5 text-base font-medium text-slate-200 hover:text-white transition-colors"
+            {/* Statistics accordion */}
+            {groups.map((group) => (
+              <li key={group.slug}>
+                <button
+                  type="button"
+                  onClick={() => toggleCategory(group.slug)}
+                  aria-expanded={openCategory === group.slug}
+                  className="flex w-full items-center justify-between py-3.5 text-base font-medium text-slate-200 hover:text-white transition-colors"
                 >
-                  {CATEGORY_META[slug].label}
-                </Link>
+                  {group.label}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                    className={`shrink-0 transition-transform duration-150 ${
+                      openCategory === group.slug ? "rotate-180" : ""
+                    }`}
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </button>
+                {openCategory === group.slug && (
+                  <ul className="mb-2 flex flex-col gap-0.5 pl-3">
+                    {group.stats.map((stat) => (
+                      <li key={stat.slug}>
+                        <Link
+                          href={`/stats/${stat.slug}`}
+                          className="block py-2.5 text-sm text-slate-400 hover:text-white transition-colors"
+                        >
+                          {stat.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
             <li>
