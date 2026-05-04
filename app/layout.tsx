@@ -5,6 +5,7 @@ import SkipNav from "../components/layout/SkipNav";
 import SiteHeader from "../components/layout/SiteHeader";
 import SiteFooter from "../components/layout/SiteFooter";
 import AnalyticsConsent from "../components/layout/AnalyticsConsent";
+import NewsletterModal from "../components/layout/NewsletterModal";
 import { websiteJsonLd } from "../lib/jsonld";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
@@ -64,6 +65,7 @@ export default function RootLayout({
         </main>
         <SiteFooter />
         {GA_ID && <AnalyticsConsent gaId={GA_ID} />}
+        <NewsletterModal />
       </body>
     </html>
   );
