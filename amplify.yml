@@ -8,6 +8,7 @@ frontend:
       commands:
         - env | grep -e UKSTATS_API_KEY >> .env.production
         - env | grep -e NEWSLETTER_API_URL >> .env.production
+        - env | grep -e NEWSLETTER_UNSUBSCRIBE_URL >> .env.production
         - env | grep -e NEXT_PUBLIC_ >> .env.production
         - npm run build
   artifacts:
