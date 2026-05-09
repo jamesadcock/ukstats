@@ -150,6 +150,14 @@ export default function MobileMenu({ groups }: Props) {
                 Methodology
               </Link>
             </li>
+            <li>
+              <Link
+                href="/newsletter"
+                className="flex items-center py-3.5 text-base font-medium text-slate-200 hover:text-white transition-colors"
+              >
+                Newsletter
+              </Link>
+            </li>
           </ul>
         </nav>
       )}

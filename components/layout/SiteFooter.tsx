@@ -47,6 +47,14 @@ export default function SiteFooter() {
                   Cookies
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/newsletter"
+                  className="hover:text-white transition-colors"
+                >
+                  Newsletter
+                </Link>
+              </li>
             </ul>
           </nav>
         </div>
